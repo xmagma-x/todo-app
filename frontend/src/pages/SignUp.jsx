@@ -43,8 +43,8 @@ function SignUp() {
         }
       })
       .catch((err) => {
-        if (err?.response?.status === 409) {
-          alert("Username already exists use a different username");
+        if (err.response.status === 409) {
+          return alert("Username already exists use a different username");
         }
       });
   }
@@ -125,7 +125,7 @@ function SignUp() {
 
         <input
           type="submit"
-          className="px-3 py-2 m-4 rounded-md bg-zinc-950 hover:bg-zinc-700 transition text-zinc-300 cursor-pointer"
+          className="px-3 py-2 m-4 rounded-md bg-zinc-950 hover:bg-zinc-950/80 transition text-zinc-300 cursor-pointer"
           value="Sign Up"
         />
       </form>

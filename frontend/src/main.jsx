@@ -40,7 +40,7 @@ axios.interceptors.response.use(
           console.error(err);
         });
     }
-    return error;
+    return Promise.reject(error);
   },
 );
 
