@@ -12,6 +12,7 @@ import axios from "axios";
 import AuthLayout from "./layouts/AuthLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import getTodos from "./loaders/getTodos.loader.jsx";
+import CreateTodoPage from "./pages/CreateTodoPage.jsx";
 
 axios.defaults.baseURL = "http://localhost:5500";
 axios.defaults.withCredentials = true;
@@ -27,22 +28,26 @@ axios.interceptors.response.use(
     return res;
   },
   (error) => {
-    console.log(error);
+    const originalRequest = error.config;
+
     if (
       error.response.status === 403 &&
-      error.response?.data.msg === "tokenExpired"
+      error.response?.data.msg === "tokenExpired" &&
+      !originalRequest._retry
     ) {
-      axios
+      originalRequest._retry = true;
+
+      return axios
         .post("/users/token")
         .then((res) => {
-          console.log(res.data.accessToken);
           localStorage.setItem("token", res.data.accessToken);
+          return axios(originalRequest);
         })
         .catch((err) => {
           console.error(err);
+          return Promise.reject(error);
         });
     }
-    return Promise.reject(error);
   },
 );
 
@@ -53,7 +58,10 @@ const router = createBrowserRouter([
     children: [
       {
         element: <AuthLayout />,
-        children: [{ index: true, element: <Dashboard />, loader: getTodos }],
+        children: [
+          { index: true, element: <Dashboard />, loader: getTodos },
+          { path: "create", element: <CreateTodoPage /> },
+        ],
       },
       {
         element: <PublicLayout />,

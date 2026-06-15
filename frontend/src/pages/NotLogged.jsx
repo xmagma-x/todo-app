@@ -1,7 +1,7 @@
-import { Link } from "react-router";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Container from "../components/Container";
+import LinkButton from "../components/LinkButton";
 
 function NotLogged() {
   return (
@@ -10,18 +10,18 @@ function NotLogged() {
         My Todo App
       </h1>
       <div className="flex items-center">
-        <Link
+        <LinkButton
           to="/signIn"
-          className="px-3 py-2 m-2 rounded-m transition rounded-md bg-zinc-200 hover:bg-zinc-300 text-zinc-900 shadow-md hover:shadow-lg "
+          className="bg-zinc-200 hover:bg-zinc-300 text-zinc-900"
         >
           Sign In
-        </Link>
-        <Link
+        </LinkButton>
+        <LinkButton
           to="/signUp"
-          className="px-3 py-2 m-2 rounded-m transition rounded-md bg-zinc-950 hover:bg-zinc-700 text-zinc-300 shadow-md hover:shadow-lg "
+          className="bg-zinc-950 hover:bg-zinc-700 text-zinc-300"
         >
           Sign Up
-        </Link>
+        </LinkButton>
       </div>
     </div>
   );
