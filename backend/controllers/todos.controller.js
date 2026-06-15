@@ -31,7 +31,7 @@ export async function getTodos(req, res) {
     const result = await Todo.find({ userId: userId });
 
     if (result.length == 0) {
-      return res.send({ msg: "there was no todos for this user" });
+      return res.send({ msg: "No todos found" });
     }
 
     res.send(result);

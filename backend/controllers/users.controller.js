@@ -110,15 +110,15 @@ export async function refreshToken(req, res) {
       };
 
       await Token.findOneAndDelete({ token: refreshToken });
-      const refreshToken = await jwt.sign(userData, REFRESH_TOKEN_SECRET, {
+      const newRefreshToken = await jwt.sign(userData, REFRESH_TOKEN_SECRET, {
         expiresIn: "7d",
       });
       const accessToken = await jwt.sign(userData, ACCESS_TOKEN_SECRET, {
         expiresIn: "15m",
       });
 
-      await Token.create({ token: refreshToken });
-      res.cookie("refreshToken", refreshToken, {
+      await Token.create({ token: newRefreshToken });
+      res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",

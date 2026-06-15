@@ -11,6 +11,7 @@ import "./index.css";
 import axios from "axios";
 import AuthLayout from "./layouts/AuthLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
+import getTodos from "./loaders/getTodos.loader.jsx";
 
 axios.defaults.baseURL = "http://localhost:5500";
 axios.defaults.withCredentials = true;
@@ -26,6 +27,7 @@ axios.interceptors.response.use(
     return res;
   },
   (error) => {
+    console.log(error);
     if (
       error.response.status === 403 &&
       error.response?.data.msg === "tokenExpired"
@@ -51,7 +53,7 @@ const router = createBrowserRouter([
     children: [
       {
         element: <AuthLayout />,
-        children: [{ index: true, element: <Dashboard /> }],
+        children: [{ index: true, element: <Dashboard />, loader: getTodos }],
       },
       {
         element: <PublicLayout />,
