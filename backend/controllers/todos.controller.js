@@ -25,6 +25,25 @@ export async function createTodo(req, res) {
   }
 }
 
+export async function getTodoInfo(req, res) {
+  try {
+    const { userId } = req.user;
+    const { todoId } = req.params;
+    const result = await Todo.findOne({ _id: todoId, userId: userId });
+
+    if (!result) {
+      return res.send({ msg: "No todo found" });
+    }
+
+    res.send(result);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .send({ error: "Internal server error in getting todo info" });
+  }
+}
+
 export async function getTodos(req, res) {
   try {
     const { userId } = req.user;

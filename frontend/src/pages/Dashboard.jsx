@@ -7,21 +7,21 @@ import Todo from "../components/Todo";
 function Dashboard() {
   const data = useLoaderData();
 
-  console.log(data);
-
   function handleSubmit() {
     localStorage.removeItem("token");
     axios.delete("/users/logout");
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 w-lg">
+    <div className="flex flex-col items-center gap-7 w-lg">
       <h1 className="font-bold text-3xl text-zinc-900">Dashboard</h1>
       <div className="w-full flex flex-col gap-3">
         {!data.todos.msg ? (
           data.todos.map((todo) => <Todo key={todo._id} data={todo} />)
         ) : (
-          <h1>{data.todos.msg}</h1>
+          <h1 className="text-lg font-semibold text-zinc-800 m-auto p-8">
+            {data.todos.msg}
+          </h1>
         )}
       </div>
       <div className="w-full flex items-center justify-around">

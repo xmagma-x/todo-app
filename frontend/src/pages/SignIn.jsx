@@ -39,24 +39,12 @@ function SignIn() {
       >
         <div className="w-full mb-3">
           <label htmlFor="username">Username:</label>
-          <Input
-            className="w-full m-0! mt-2!"
-            id="username"
-            name="username"
-            required
-            autoComplete="off"
-          />
+          <Input id="username" name="username" required autoComplete="off" />
         </div>
 
         <div className="w-full mb-3">
           <label htmlFor="password">Password:</label>
-          <Input
-            className="w-full m-0! mt-2!"
-            id="password"
-            type="password"
-            required
-            name="password"
-          />
+          <Input id="password" type="password" required name="password" />
         </div>
 
         <input

@@ -13,6 +13,8 @@ import AuthLayout from "./layouts/AuthLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import getTodos from "./loaders/getTodos.loader.jsx";
 import CreateTodoPage from "./pages/CreateTodoPage.jsx";
+import UpdateTodoPage from "./pages/UpdateTodoPage.jsx";
+import getTodoInfo from "./loaders/getTodoInfo.loader.jsx";
 
 axios.defaults.baseURL = "http://localhost:5500";
 axios.defaults.withCredentials = true;
@@ -61,6 +63,11 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Dashboard />, loader: getTodos },
           { path: "create", element: <CreateTodoPage /> },
+          {
+            path: "/:todoId",
+            element: <UpdateTodoPage />,
+            loader: getTodoInfo,
+          },
         ],
       },
       {

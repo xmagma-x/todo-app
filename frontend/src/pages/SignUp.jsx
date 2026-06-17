@@ -55,13 +55,12 @@ function SignUp() {
         Sign Up
       </h1>
       <form
-        className="flex flex-col items-center justify-around"
+        className="flex flex-col items-center justify-around gap-3"
         onSubmit={handleSubmit}
       >
-        <div className="w-full mb-3">
+        <div className="w-full">
           <label htmlFor="username">Username:</label>
           <Input
-            className="w-full m-0! mt-2!"
             id="username"
             value={username}
             required
@@ -74,10 +73,9 @@ function SignUp() {
           <NotValid valid={validUsername}>Username is not valid</NotValid>
         </div>
 
-        <div className="w-full mb-3">
+        <div className="w-full">
           <label htmlFor="email">Email:</label>
           <Input
-            className="w-full m-0! mt-2!"
             id="email"
             value={email}
             required
@@ -89,10 +87,9 @@ function SignUp() {
           <NotValid valid={validEmail}>Email is not valid</NotValid>
         </div>
 
-        <div className="w-full mb-3">
+        <div className="w-full">
           <label htmlFor="password">Password:</label>
           <Input
-            className="w-full m-0! mt-2!"
             id="password"
             type="password"
             value={password}
@@ -105,10 +102,9 @@ function SignUp() {
           <NotValid valid={validPass}>Password is not valid</NotValid>
         </div>
 
-        <div className="w-full mb-3">
+        <div className="w-full">
           <label htmlFor="confirmPassword">Confirm Password:</label>
           <Input
-            className="w-full m-0! mt-2!"
             id="confirmPassword"
             type="password"
             value={confirmPassword}

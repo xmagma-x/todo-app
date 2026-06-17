@@ -1,9 +1,17 @@
 import axios from "axios";
 import { MdEditSquare, MdDelete } from "react-icons/md";
+import { Link, useRevalidator } from "react-router";
 
 function Todo({ data }) {
+  const revalidator = useRevalidator();
+
   function handleDelete(id) {
-    axios.delete(`/todos/${id}`);
+    axios
+      .delete(`/todos/${id}`)
+      .then(() => {
+        revalidator.revalidate();
+      })
+      .catch((err) => console.error(err));
   }
 
   return (
@@ -11,8 +19,13 @@ function Todo({ data }) {
       <h1 className="text-xl font-semibold">{data.title}</h1>
 
       <div className="flex justify-center items-cneter gap-3">
-        <MdEditSquare className="text-zinc-700 hover:text-zinc-900 transition cursor-pointer size-6" />
-        <MdDelete className="text-rose-800 hover:text-rose-900 transition cursor-pointer size-6" />
+        <Link to={`${data._id}`}>
+          <MdEditSquare className="text-zinc-700 hover:text-zinc-900 transition cursor-pointer size-6" />
+        </Link>
+        <MdDelete
+          className="text-rose-800 hover:text-rose-900 transition cursor-pointer size-6"
+          onClick={() => handleDelete(data._id)}
+        />
       </div>
     </div>
   );
