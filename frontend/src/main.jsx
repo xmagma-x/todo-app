@@ -15,6 +15,7 @@ import getTodos from "./loaders/getTodos.loader.jsx";
 import CreateTodoPage from "./pages/CreateTodoPage.jsx";
 import UpdateTodoPage from "./pages/UpdateTodoPage.jsx";
 import getTodoInfo from "./loaders/getTodoInfo.loader.jsx";
+import { Toaster } from "react-hot-toast";
 
 axios.defaults.baseURL = "http://localhost:5500";
 axios.defaults.withCredentials = true;
@@ -50,6 +51,7 @@ axios.interceptors.response.use(
           return Promise.reject(error);
         });
     }
+    return Promise.reject(error);
   },
 );
 
@@ -85,5 +87,15 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
+    <Toaster
+      toastOptions={{
+        style: {
+          background: "rgba(255,255,255,0.3)",
+          backdropFilter: "blur(70px)",
+          borderRadius: "0.5rem",
+          border: "1px solid rgba(255,255,255,0.4)",
+        },
+      }}
+    />
   </StrictMode>,
 );

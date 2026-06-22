@@ -5,6 +5,7 @@ import { PWD_REGEX, USER_REGEX, EMAIL_REGEX } from "../const";
 import NotValid from "../components/NotValid";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function SignUp() {
     e.preventDefault();
 
     if (!validUsername || !validEmail || !validPass || !validPassConfirm) {
-      alert("please make sure all fields are valids");
+      toast.error("please make sure all fields are valid");
       return;
     }
 
@@ -35,18 +36,26 @@ function SignUp() {
       password: password,
     };
 
-    axios
-      .post(`/users`, formData)
-      .then((res) => {
+    toast.promise(axios.post(`/users`, formData), {
+      loading: "Loading.....",
+      success: async (res) => {
         if (res.status === 201) {
-          navigate("/signin");
+          await axios
+            .post("/users/login", { username: username, password: password })
+            .then((res) => {
+              localStorage.setItem("token", res.data.accessToken);
+            });
         }
-      })
-      .catch((err) => {
+        navigate("/");
+        return "Signed Up successfully";
+      },
+      error: (err) => {
         if (err.response.status === 409) {
-          return alert("Username already exists use a different username");
+          return "Username already exists use a different username";
         }
-      });
+        return "Something went wrong";
+      },
+    });
   }
 
   return (

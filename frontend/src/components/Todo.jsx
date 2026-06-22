@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 import { MdEditSquare, MdDelete } from "react-icons/md";
 import { Link, useRevalidator } from "react-router";
 
@@ -6,12 +7,17 @@ function Todo({ data }) {
   const revalidator = useRevalidator();
 
   function handleDelete(id) {
-    axios
-      .delete(`/todos/${id}`)
-      .then(() => {
+    toast.promise(axios.delete(`/todos/${id}`), {
+      loading: "Loading....",
+      success: (res) => {
         revalidator.revalidate();
-      })
-      .catch((err) => console.error(err));
+        return "Deleted successfully";
+      },
+      error: (err) => {
+        console.log(err);
+        return "Something went wrong";
+      },
+    });
   }
 
   return (

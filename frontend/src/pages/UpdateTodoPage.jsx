@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useLoaderData, useNavigate, useParams } from "react-router";
 import Input from "../components/Input";
+import toast from "react-hot-toast";
 
 function UpdateTodoPage() {
   const { todoId } = useParams();
@@ -13,14 +14,14 @@ function UpdateTodoPage() {
     const form = new FormData(e.currentTarget);
     const formData = Object.fromEntries(form.entries());
 
-    return axios
-      .put(`/todos/${todoId}`, formData)
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/");
-        }
-      })
-      .catch((err) => console.log(err));
+    toast.promise(axios.put(`/todos/${todoId}`, formData), {
+      loading: "Loading....",
+      success: (res) => {
+        if (res.status === 200) navigate("/");
+        return "Todo was updated successfully";
+      },
+      error: "Something went wrong",
+    });
   }
 
   return (

@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import Container from "../components/Container";
 import Input from "../components/Input";
 import { PWD_REGEX, USER_REGEX, EMAIL_REGEX } from "../const";
@@ -12,19 +13,20 @@ function SignIn() {
     const form = new FormData(e.currentTarget);
     const formData = Object.fromEntries(form.entries());
 
-    axios
-      .post(`/users/login`, formData)
-      .then((res) => {
+    toast.promise(axios.post("/users/login", formData), {
+      loading: "Signing in.....",
+      success: (res) => {
         localStorage.setItem("token", res.data.accessToken);
         navigate("/");
-      })
-      .catch((err) => {
-        if (err.response?.status === 401)
-          return alert("Invalid username or password");
-        if (err.response?.status === 404) return alert("Username not found");
-
-        console.log(err.response);
-      });
+        return "Signed in succefully";
+      },
+      error: (err) => {
+        if (err.response?.status === 401) return "Invalid password";
+        if (err.response?.status === 404) return "Username not found";
+        console.log(err);
+        return "something went wrong";
+      },
+    });
   }
 
   return (

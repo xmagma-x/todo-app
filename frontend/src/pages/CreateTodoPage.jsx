@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import Input from "../components/Input";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function CreateTodoPage() {
   const navigate = useNavigate();
@@ -10,14 +11,16 @@ function CreateTodoPage() {
     const form = new FormData(e.currentTarget);
     const formData = Object.fromEntries(form.entries());
 
-    return axios
-      .post("/todos", formData)
-      .then((res) => {
+    toast.promise(axios.post("/todos", formData), {
+      loading: "Loading.....",
+      success: (res) => {
         if (res.status === 201) {
           navigate("/");
         }
-      })
-      .catch((err) => console.log(err));
+        return "Created todo successfully";
+      },
+      error: "something went wrong",
+    });
   }
   return (
     <div className="flex flex-col items-center justify-around gap-4">
