@@ -12,9 +12,6 @@ import axios from "axios";
 import AuthLayout from "./layouts/AuthLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import getTodos from "./loaders/getTodos.loader.jsx";
-import CreateTodoPage from "./pages/CreateTodoPage.jsx";
-import UpdateTodoPage from "./pages/UpdateTodoPage.jsx";
-import getTodoInfo from "./loaders/getTodoInfo.loader.jsx";
 import { Toaster } from "react-hot-toast";
 
 axios.defaults.baseURL = "http://localhost:5500";
@@ -62,15 +59,7 @@ const router = createBrowserRouter([
     children: [
       {
         element: <AuthLayout />,
-        children: [
-          { index: true, element: <Dashboard />, loader: getTodos },
-          { path: "create", element: <CreateTodoPage /> },
-          {
-            path: "/:todoId",
-            element: <UpdateTodoPage />,
-            loader: getTodoInfo,
-          },
-        ],
+        children: [{ index: true, element: <Dashboard />, loader: getTodos }],
       },
       {
         element: <PublicLayout />,

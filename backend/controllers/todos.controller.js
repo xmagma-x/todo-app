@@ -82,7 +82,7 @@ export async function updateTodo(req, res) {
     const result = await Todo.findOneAndUpdate(
       { _id: todoId, userId: userId },
       { $set: updateData },
-      { new: true },
+      { returnDocument: "after" },
     );
 
     if (!result) {
