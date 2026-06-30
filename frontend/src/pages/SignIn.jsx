@@ -1,7 +1,5 @@
 import toast from "react-hot-toast";
-import Container from "../components/Container";
 import Input from "../components/Input";
-import { PWD_REGEX, USER_REGEX, EMAIL_REGEX } from "../const";
 import axios from "axios";
 import { useNavigate } from "react-router";
 

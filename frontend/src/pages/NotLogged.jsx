@@ -1,6 +1,3 @@
-import Button from "../components/Button";
-import Input from "../components/Input";
-import Container from "../components/Container";
 import LinkButton from "../components/LinkButton";
 
 function NotLogged() {
