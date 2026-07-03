@@ -13,6 +13,7 @@ import AuthLayout from "./layouts/AuthLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import getTodos from "./loaders/getTodos.loader.jsx";
 import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 axios.defaults.baseURL = "http://localhost:5500";
 axios.defaults.withCredentials = true;
@@ -44,9 +45,15 @@ axios.interceptors.response.use(
           return axios(originalRequest);
         })
         .catch((err) => {
-          console.error(err);
+          console.log("err", err);
           return Promise.reject(error);
         });
+    } else if (
+      error.response.status === 403 &&
+      error.response?.data.msg === "Logout"
+    ) {
+      localStorage.removeItem("token");
+      window.location.reload(true);
     }
     return Promise.reject(error);
   },

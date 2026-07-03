@@ -94,14 +94,17 @@ export async function getUserInfo(req, res) {
 export async function refreshToken(req, res) {
   try {
     const refreshToken = req.cookies?.refreshToken;
-    if (!refreshToken) return res.status(401).send({ msg: "Unauthorized" });
+    if (!refreshToken) return res.status(403).send({ msg: "Logout" });
 
     const result = await Token.findOne({ token: refreshToken });
 
     if (!result) return res.status(403).send({ msg: "Forbidden" });
 
     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, async (err, user) => {
-      if (err) return res.status(403).send({ msg: "Forbidden" });
+      if (err) {
+        logoutUser(req, res);
+        return res.status(403).send({ msg: "Logout" });
+      }
 
       const userData = {
         userId: user.userId,
