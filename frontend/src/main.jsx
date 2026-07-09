@@ -13,7 +13,6 @@ import AuthLayout from "./layouts/AuthLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import getTodos from "./loaders/getTodos.loader.jsx";
 import { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router";
 
 axios.defaults.baseURL = "http://localhost:5500";
 axios.defaults.withCredentials = true;
