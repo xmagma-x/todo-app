@@ -1,8 +1,9 @@
 import User from "../models/users.model.js";
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../config/env.js";
+import { REFRESH_TOKEN_SECRET } from "../config/env.js";
 import Token from "../models/refreshToken.model.js";
+import { generateToken } from "../config/function.js";
 
 export async function createUser(req, res) {
   try {
@@ -55,13 +56,7 @@ export async function loginUser(req, res) {
     };
 
     if (await compare(req.body.password, result.password)) {
-      const accessToken = jwt.sign(user, ACCESS_TOKEN_SECRET, {
-        expiresIn: "15m",
-      });
-      const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET, {
-        expiresIn: "7d",
-      });
-      await Token.create({ token: refreshToken });
+      const [accessToken, refreshToken] = generateToken(user);
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -94,7 +89,7 @@ export async function getUserInfo(req, res) {
 export async function refreshToken(req, res) {
   try {
     const refreshToken = req.cookies?.refreshToken;
-    if (!refreshToken) return res.status(403).send({ msg: "Logout" });
+    if (!refreshToken) return res.status(403).send({ msg: "Unauth" });
 
     const result = await Token.findOne({ token: refreshToken });
 
@@ -113,14 +108,8 @@ export async function refreshToken(req, res) {
       };
 
       await Token.findOneAndDelete({ token: refreshToken });
-      const newRefreshToken = await jwt.sign(userData, REFRESH_TOKEN_SECRET, {
-        expiresIn: "7d",
-      });
-      const accessToken = await jwt.sign(userData, ACCESS_TOKEN_SECRET, {
-        expiresIn: "15m",
-      });
+      const [accessToken, newRefreshToken] = generateToken(userData);
 
-      await Token.create({ token: newRefreshToken });
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: true,
