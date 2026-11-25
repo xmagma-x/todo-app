@@ -1,6 +1,7 @@
 # Todo App
 
 A full-stack todo application with user authentication and per-user todo management.
+This project was made just to learn and implement CRUD operations , authentication & authorization as my first full web application
 
 ## Stack
 
