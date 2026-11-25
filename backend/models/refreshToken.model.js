@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-const refreshTokenSchema = Schema({
+const refreshTokenSchema = new Schema({
   token: {
     type: String,
     required: true,
